@@ -1,7 +1,7 @@
 
 <div align="center">
 
-<h1>1.x-Distill</h1>
+<h1><span class="gradient-title">🌈 1.x-Distill</span></h1>
 <h3>Breaking the Diversity, Quality, and Efficiency Barrier in Distribution Matching Distillation</h3>
 
 <a href="https://thu-accdiff.github.io/1.x-distill-page/">
