@@ -1,0 +1,79 @@
+training:
+  output_dir: "outputs/sd3medium/stage2"
+  logging_dir: "logs"
+
+  use_fsdp: true
+  mixed_precision: "bf16"
+  batch_size: 1
+  gradient_checkpointing: true
+  gradient_accumulation_steps: 4
+  num_epochs: 100
+  max_train_steps: 4000
+  lr_scheduler: "constant"
+  lr_warmup_steps: 0
+  t5_max_sequence_length: 256
+  seed: 3407
+
+  # Checkpoint saving
+  save_checkpoint_interval: 100
+  save_weights: true
+
+  # Dataset
+  dataloader_num_workers: 8
+  prefetch_factor: 16
+  train_prompts_path: "dataset/train_anno.jsonl"  # Download JourneyDB and replace this with the path to your own train_anno.jsonl file.
+  max_samples: 100000
+  img_size: 1024
+
+  # Download stable-diffusion-3-medium-diffusers and replace this with your local path.
+  pretrained_model_name_or_path: "/cache/stable-diffusion-3-medium-diffusers"
+  # Replace this with the path to the distilled model obtained from Stage 1.
+  init_model_name_or_path: "/cache/stage1"
+
+  sampling_steps_list: [2]
+  learning_rate_student: 1.0e-5
+  learning_rate_dis: 1.0e-5
+  guidance_scale: null
+  student_shift: 3.0
+  student_sigmas: null
+  train_window: null
+  eta: 1.0
+
+  # Cache configuration
+  # If enable_delta_pred: false, train Stage 2 without cache, result in a fully-infer student model.
+  enable_delta_pred: true
+  cache_block: [2,3,4,5,6,7]
+  f_warmup_iter: 1000
+  learning_rate_mlp: 1.0e-3
+
+  # In Stage 2 training, you may choose whether to enable LoRA.
+  # If LoRA is enabled, use common/merge_lora.py to merge the LoRA parameters into the base model after training
+  # If LoRA is disabled, you may need to reduce learning_rate_student for stable training.
+  use_lora: true
+  lora_rank: 64
+  lora_alpha: 64
+  lora_dropout: 0.0
+  lora_block: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
+
+  # GAN training
+  use_gan: true
+  start_update_generator_step: 50
+  update_generater_interval: 2
+  generate_ref_img: true
+
+  # We recommend using a 4-step or 8-step distilled model obtained from Stage 1 to generate reference images online for adversarial training.
+  # Compared with the original teacher model, it is substantially faster and produces much higher-quality reference images, while its own training cost is relatively low.
+  # If you still want to use the original teacher model for reference image generation, you need to manually modify the relevant code in train/train_stage2.py.
+  teacher_model_name_or_path: "/cache/4step_teacher"  # Replace this with the path to your 4-step or 8-step distilled model.
+  generate_ref_step: 4  # Inference step used by the 4-step/8-step distilled model.
+
+  lambda_output: 0
+  lambda_feature: 0
+  lambda_gan: 1
+  lambda_lpips: 0
+
+  # Validation
+  enable_eval: false
+  eval_step: 2
+  eval_seed: 42
+  eval_prompts_path: "dataset/validation.txt"

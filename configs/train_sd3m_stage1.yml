@@ -1,0 +1,65 @@
+training:
+  output_dir: "outputs/sd3medium/stage1"  
+  logging_dir: "logs"
+
+  use_fsdp: true
+  mixed_precision: "bf16"
+  batch_size: 8
+  gradient_checkpointing: true
+  gradient_accumulation_steps: 1
+  num_epochs: 100
+  max_train_steps: 500   
+  lr_scheduler: "constant"
+  lr_warmup_steps: 0
+  max_grad_norm: 1.0
+  t5_max_sequence_length: 256 
+  seed: 3407
+
+  # Checkpoint saving
+  save_weights: true 
+  save_checkpoint_interval: 50
+  save_fake: false
+
+  # Dataset
+  dataloader_num_workers: 8
+  prefetch_factor: 16
+  train_prompts_path: "dataset/train_anno.jsonl" # Download JourneyDB and replace this with the path to your own train_anno.jsonl file.
+  max_samples: 100000
+  img_size: 1024
+
+  # Download stable-diffusion-3-medium-diffusers and replace this with your local path.
+  pretrained_model_name_or_path: "/cache/stable-diffusion-3-medium-diffusers" 
+  teacher_model_name_or_path: "/cache/stable-diffusion-3-medium-diffusers"
+  init_model_name_or_path: "/cache/stable-diffusion-3-medium-diffusers"
+
+  sampling_steps_list: [2]  # step of student model
+  learning_rate_fake: 4.0e-5 
+  learning_rate_student: 5.0e-6
+  guidance_scale: 7.0   
+  cfg_control: 0.96 # cfg control threshold
+
+  student_shift: 3.0 
+  student_sigmas: null 
+  train_window: null  
+  split_interval: null  
+  points_mode: "c"  
+  use_sigma_function: true  
+  sample_in_window_f: true
+  sample_in_window_s: true
+  eta: 1.0
+  lambda_reg: 0.
+  ttur: 1
+
+  # Validation
+  enable_eval: false
+  eval_step : 2  
+  eval_seed: 42
+  eval_prompts_path: "dataset/validation.txt" 
+
+# prof:
+#   enable: false
+#   with_stack: false
+#   wait: 0
+#   warmup: 0
+#   active: 1
+#   repeat: 1

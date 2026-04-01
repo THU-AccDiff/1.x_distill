@@ -1,0 +1,12 @@
+torch==2.1.0 
+accelerate==0.34.0 
+diffusers==0.34.0 
+transformers==4.45.0 
+peft==0.15.0 
+easydict 
+tqdm 
+clip 
+open_clip_torch 
+lpips 
+antialiased_cnns 
+vision_aided_loss
