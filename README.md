@@ -7,8 +7,11 @@
 <a href="https://thu-accdiff.github.io/1.x-distill-page/">
   <img src="https://img.shields.io/badge/Project-Page-green" alt="Project Page">
 </a>
-<a href="#">
+<!-- <a href="#">
   <img src="https://img.shields.io/badge/Paper-arXiv-b31b1b.svg" alt="Paper">
+</a> -->
+<a href="https://thu-accdiff.github.io/1.x-distill-page/assets/1_x_Distill.pdf">
+  <img src="https://img.shields.io/badge/PDF-Download-red.svg" alt="PDF">
 </a>
 <a href="https://github.com/THU-AccDiff/1.x_distill">
   <img src="https://img.shields.io/badge/Code-GitHub-blue" alt="Code">
